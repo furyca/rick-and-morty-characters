@@ -3,11 +3,13 @@ import { useContext } from "react";
 import { Context } from "../Context";
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterArea from "./FilterArea";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const Filters = () => {
+const Filters = ({smallScreen, drawerActive, closeDrawer}) => {
   const context = useContext(Context)
   const speciesList = ["Human", "Alien", "Humanoid", "Animal", "Robot", "Cronenberg", "Mytholog", "Disease", "Poopybutthole", "unknown"]
   const genderList = ["Female", "Male", "unknown", "Genderless"]
+  const display = drawerActive ? 'initial' : 'none'
   
   const clearAllFilters = () => {
     context.setPage(1)
@@ -38,7 +40,7 @@ const Filters = () => {
   return (
     <Box
       sx={{
-        display: {xs: 'none', md: 'initial' },
+        display: {xs: display, md: 'initial' },
         p: "2rem 1rem",
         minWidth: '25%',
         userSelect: 'none'
@@ -56,6 +58,8 @@ const Filters = () => {
         <Button color="error" size="small" sx={{textAlign: 'end' }} onClick={clearAllFilters} endIcon={<DeleteIcon />}>
           <Typography sx={{fontSize: {sm: '0', lg: '.75rem'} }}>Clear All</Typography>
         </Button>
+        {smallScreen && <Button color="error" variant="contained" onClick={closeDrawer}><ExpandMoreIcon /></Button>}
+
       </Box>
 
       <FilterArea filter={handleGender} clear={clearGender} list={genderList} type='gender' comparison={context.gender} />
